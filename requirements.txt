@@ -1,0 +1,6 @@
+duckdb
+motherduck
+datasets
+pandas
+pyarrow
+huggingface_hub
