@@ -6,4 +6,4 @@ sources:
 
     tables:
       - name: browsing_behavior_logs
-      - name: bronze_orders
+     
