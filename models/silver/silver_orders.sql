@@ -48,3 +48,7 @@ WHERE row_num = 1
   AND order_value_ngn > 0
   AND shipping_fee_ngn >= 0
   AND estimated_delivery_days >= 0
+WHERE order_id IS NOT NULL
+  AND customer_id IS NOT NULL
+  AND order_date IS NOT NULL
+  AND order_status IS NOT NULL
