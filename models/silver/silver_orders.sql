@@ -3,7 +3,7 @@
 WITH source_data AS (
 
     SELECT *
-    FROM {{ source('main', 'bronze_orders') }}
+    FROM {{ source('bronze', 'bronze_orders') }}
 
 ),
 
