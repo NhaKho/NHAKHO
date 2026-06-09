@@ -1,9 +1,7 @@
 version: 2
 
 sources:
-  - name: bronze
-    schema: bronze
-
+  - name: main
+    schema: main
     tables:
       - name: browsing_behavior_logs
-      - name: bronze_orders
