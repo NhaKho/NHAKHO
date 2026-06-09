@@ -5,3 +5,4 @@ sources:
     schema: main
     tables:
       - name: browsing_behavior_logs
+      - name: ecommerce_order_data

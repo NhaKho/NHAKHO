@@ -42,6 +42,8 @@ cleaned AS (
       AND customer_id IS NOT NULL
       AND "timestamp" IS NOT NULL
       AND page_type IS NOT NULL
+      AND TRIM(session_id) <> ''
+      AND TRIM(customer_id) <> ''
 
 )
 
