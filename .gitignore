@@ -1,0 +1,12 @@
+profiles.yml
+.env
+
+target/
+logs/
+
+raw_youtube/
+
+dbt_packages/
+__pycache__/
+
+*.pyc

@@ -1,8 +1,9 @@
 version: 2
 
 sources:
-  - name: main
-    schema: main
+  - name: youtube_bronze
+    schema: youtube_bronze
+
     tables:
-      - name: browsing_behavior_logs
-      - name: ecommerce_order_data
+      - name: raw_youtube_videos
+      - name: raw_youtube_categories

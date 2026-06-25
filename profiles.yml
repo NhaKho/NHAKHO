@@ -1,9 +1,0 @@
-ecommerce_lakehouse:
-  target: dev
-
-  outputs:
-    dev:
-      type: duckdb
-      path: "md:ecommerce_lakehouse"
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRodXZ0MjM0MDZAc3QudWVsLmVkdS52biIsIm1kUmVnaW9uIjoiYXdzLXVzLWVhc3QtMSIsInNlc3Npb24iOiJ0aHV2dDIzNDA2LnN0LnVlbC5lZHUudm4iLCJwYXQiOiI3a1pMWXFEY21tLXAyazZUVDBLcjlnd3FsN196bFIzRjNxRzhEMGtCeVhvIiwidXNlcklkIjoiMWNlMTk2ODctMjI0Zi00MjAwLWJhZDctOTg4YmIxNDM5Mjg2IiwiaXNzIjoibWRfcGF0IiwicmVhZE9ubHkiOmZhbHNlLCJ0b2tlblR5cGUiOiJyZWFkX3dyaXRlIiwiaWF0IjoxNzgwOTUxNTgwfQ.7S_mYIlcihgWysnO90HGUWI6CrCZRjCoqON1Yp5a6JA"
-      threads: 4
