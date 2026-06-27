@@ -6,8 +6,11 @@
 select
     d.year,
     d.month,
-    c.country_code,
-    cat.category_name,
+    d.year_month,
+    d.month_start,
+
+    coalesce(c.country_code, 'Unknown') as country_code,
+    coalesce(cat.category_name, 'Unknown') as category_name,
 
     count(*) as trending_records,
     count(distinct f.video_key) as unique_videos,
@@ -40,5 +43,7 @@ left join {{ ref('dim_category') }} cat
 group by
     d.year,
     d.month,
-    c.country_code,
-    cat.category_name
+    d.year_month,
+    d.month_start,
+    coalesce(c.country_code, 'Unknown'),
+    coalesce(cat.category_name, 'Unknown')

@@ -4,8 +4,8 @@
 ) }}
 
 select
-    ch.channel_title,
-    c.country_code,
+    coalesce(ch.channel_title, 'Unknown') as channel_title,
+    coalesce(c.country_code, 'Unknown') as country_code,
 
     count(*) as trending_records,
     count(distinct f.video_key) as unique_videos,
@@ -33,5 +33,5 @@ left join {{ ref('dim_country') }} c
     on f.country_key = c.country_key
 
 group by
-    ch.channel_title,
-    c.country_code
+    coalesce(ch.channel_title, 'Unknown'),
+    coalesce(c.country_code, 'Unknown')

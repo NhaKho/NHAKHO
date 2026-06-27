@@ -9,6 +9,9 @@ select
 
     v.video_id,
     v.country_code,
+    v.category_id,
+    v.category_name,
+    v.channel_title,
     v.trending_date,
 
     v.views,
@@ -24,7 +27,7 @@ select
     v.ratings_disabled,
     v.video_error_or_removed
 
-from {{ ref('silver_youtube_videos') }} v
+from {{ ref('silver_youtube_enriched') }} v
 
 left join {{ ref('dim_video') }} dv
     on v.video_id = dv.video_id
@@ -43,3 +46,9 @@ left join {{ ref('dim_channel') }} dch
 
 left join {{ ref('dim_date') }} dd
     on v.trending_date = dd.date_day
+
+where dv.video_key is not null
+  and dc.country_key is not null
+  and dcat.category_key is not null
+  and dch.channel_key is not null
+  and dd.date_key is not null

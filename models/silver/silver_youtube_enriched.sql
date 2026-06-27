@@ -3,6 +3,19 @@
     schema='youtube_silver'
 ) }}
 
+with categories as (
+
+    select
+        country_code,
+        category_id,
+        max(category_name) as category_name
+    from {{ ref('silver_youtube_categories') }}
+    group by
+        country_code,
+        category_id
+
+)
+
 select
     v.video_id,
     v.title,
@@ -14,6 +27,7 @@ select
     v.country_code,
     v.trending_date,
     v.publish_time,
+    v.hours_to_trend,
 
     v.views,
     v.likes,
@@ -34,6 +48,6 @@ select
 
 from {{ ref('silver_youtube_videos') }} v
 
-left join {{ ref('silver_youtube_categories') }} c
+left join categories c
     on v.country_code = c.country_code
     and v.category_id = c.category_id
