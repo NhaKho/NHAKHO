@@ -4,10 +4,46 @@ import glob
 import os
 import json
 
-# Kết nối tới database mới trên MotherDuck
+
+def read_csv_with_encoding(file_path):
+    encodings = ["utf-8", "utf-8-sig"]
+
+    for enc in encodings:
+        try:
+            print(f"Trying encoding {enc}: {file_path}")
+
+            return pd.read_csv(
+                file_path,
+                encoding=enc,
+                encoding_errors="replace",
+                engine="python",
+                on_bad_lines="skip"
+            )
+
+        except UnicodeDecodeError:
+            continue
+
+    raise ValueError(f"Cannot decode CSV file: {file_path}")
+
+    for enc in encodings:
+        try:
+            print(f"Trying encoding {enc}: {file_path}")
+            return pd.read_csv(
+                file_path,
+                encoding=enc,
+                engine="python",
+                on_bad_lines="skip"
+            )
+        except UnicodeDecodeError:
+            continue
+
+    raise ValueError(f"Cannot decode CSV file: {file_path}")
+
+
+# Connect to MotherDuck
 con = duckdb.connect("md:youtube_analytics_lakehouse")
 
-# Tạo schema Bronze
+# Create Bronze schema
 con.execute("create schema if not exists youtube_bronze")
 
 # =========================
@@ -24,7 +60,7 @@ for file in csv_files:
     country_code = os.path.basename(file)[:2].upper()
     print("Loading CSV:", file)
 
-    df = pd.read_csv(file, encoding="latin1")
+    df = read_csv_with_encoding(file)
     df["country_code"] = country_code
 
     all_dfs.append(df)

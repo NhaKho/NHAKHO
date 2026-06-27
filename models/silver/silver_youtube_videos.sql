@@ -14,20 +14,20 @@ cleaned as (
         trim(title) as title,
         trim(channel_title) as channel_title,
 
-        cast(category_id as integer) as category_id,
+        try_cast(category_id as integer) as category_id,
         upper(trim(country_code)) as country_code,
 
-        cast(strptime(trending_date, '%y.%d.%m') as date) as trending_date,
-        cast(publish_time as timestamp) as publish_time,
+        cast(try_strptime(trending_date, '%y.%d.%m') as date) as trending_date,
+        try_cast(publish_time as timestamp) as publish_time,
 
-        coalesce(cast(views as bigint), 0) as views,
-        coalesce(cast(likes as bigint), 0) as likes,
-        coalesce(cast(dislikes as bigint), 0) as dislikes,
-        coalesce(cast(comment_count as bigint), 0) as comment_count,
+        coalesce(try_cast(views as bigint), 0) as views,
+        coalesce(try_cast(likes as bigint), 0) as likes,
+        coalesce(try_cast(dislikes as bigint), 0) as dislikes,
+        coalesce(try_cast(comment_count as bigint), 0) as comment_count,
 
-        cast(comments_disabled as boolean) as comments_disabled,
-        cast(ratings_disabled as boolean) as ratings_disabled,
-        cast(video_error_or_removed as boolean) as video_error_or_removed,
+        try_cast(comments_disabled as boolean) as comments_disabled,
+        try_cast(ratings_disabled as boolean) as ratings_disabled,
+        try_cast(video_error_or_removed as boolean) as video_error_or_removed,
 
         nullif(trim(tags), '') as tags,
         nullif(trim(description), '') as description,
@@ -35,23 +35,40 @@ cleaned as (
 
         date_diff(
             'hour',
-            cast(publish_time as timestamp),
-            cast(strptime(trending_date, '%y.%d.%m') as timestamp)
+            try_cast(publish_time as timestamp),
+            cast(try_strptime(trending_date, '%y.%d.%m') as timestamp)
         ) as hours_to_trend,
 
-        round((coalesce(cast(likes as bigint), 0) * 100.0) / nullif(coalesce(cast(views as bigint), 0), 0), 4) as like_rate,
-        round((coalesce(cast(comment_count as bigint), 0) * 100.0) / nullif(coalesce(cast(views as bigint), 0), 0), 4) as comment_rate,
-        round(((coalesce(cast(likes as bigint), 0) + coalesce(cast(comment_count as bigint), 0)) * 100.0) / nullif(coalesce(cast(views as bigint), 0), 0), 4) as engagement_rate,
+        round(
+            (coalesce(try_cast(likes as bigint), 0) * 100.0)
+            / nullif(coalesce(try_cast(views as bigint), 0), 0),
+            4
+        ) as like_rate,
+
+        round(
+            (coalesce(try_cast(comment_count as bigint), 0) * 100.0)
+            / nullif(coalesce(try_cast(views as bigint), 0), 0),
+            4
+        ) as comment_rate,
+
+        round(
+            (
+                coalesce(try_cast(likes as bigint), 0)
+                + coalesce(try_cast(comment_count as bigint), 0)
+            ) * 100.0
+            / nullif(coalesce(try_cast(views as bigint), 0), 0),
+            4
+        ) as engagement_rate,
 
         row_number() over (
             partition by
                 trim(video_id),
                 upper(trim(country_code)),
-                cast(strptime(trending_date, '%y.%d.%m') as date)
+                cast(try_strptime(trending_date, '%y.%d.%m') as date)
             order by
-                coalesce(cast(views as bigint), 0) desc,
-                coalesce(cast(likes as bigint), 0) desc,
-                coalesce(cast(comment_count as bigint), 0) desc
+                coalesce(try_cast(views as bigint), 0) desc,
+                coalesce(try_cast(likes as bigint), 0) desc,
+                coalesce(try_cast(comment_count as bigint), 0) desc
         ) as rn
 
     from source_data
@@ -61,9 +78,9 @@ cleaned as (
       and trim(video_id) <> '#NAME?'
       and title is not null
       and trim(title) <> ''
-      and views >= 0
-      and trending_date is not null
-      and publish_time is not null
+      and try_cast(views as bigint) >= 0
+      and try_strptime(trending_date, '%y.%d.%m') is not null
+      and try_cast(publish_time as timestamp) is not null
 
 )
 
