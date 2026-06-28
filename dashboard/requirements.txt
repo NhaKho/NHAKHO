@@ -1,1 +1,6 @@
-
+streamlit==1.35.0
+duckdb==0.10.3
+motherduck==0.3.0
+pandas
+plotly
+groq
