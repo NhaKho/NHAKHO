@@ -10,3 +10,5 @@ dbt_packages/
 __pycache__/
 
 *.pyc
+
+dashboard/.streamlit/secrets.toml
