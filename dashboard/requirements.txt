@@ -1,4 +1,5 @@
-streamlit==1.35.0
-duckdb>=1.0.0
-pandas
-requests
+streamlit>=1.45.0
+duckdb>=1.4.0
+pandas>=2.2.0
+requests>=2.32.0
+numpy>=2.0.0
