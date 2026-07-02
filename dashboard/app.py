@@ -147,7 +147,8 @@ st.markdown("""
 con = get_connection()
 
 with st.spinner("Đang tải dữ liệu..."):
-    df_gold, df_category, df_country, df_model_results, df_predictions = load_data()
+    (df_gold, df_category, df_country, df_model_results, df_predictions,
+     df_top_channels, df_trending_month) = load_data()
 
 col_country = find_col(df_gold, ["country_code", "country"])
 col_category = find_col(df_gold, ["category_name", "category"])
@@ -276,6 +277,8 @@ if nav_choice == "Dashboard":
             df_country=df_country,
             df_model_results=df_model_results,
             dow_records=dow_records,
+            df_top_channels=df_top_channels,
+            df_trending_month=df_trending_month,
         )
 
         html_ov = render_dashboard_html(
@@ -410,6 +413,8 @@ else:
         df_country=df_country,
         df_model_results=df_model_results,
         dow_records=dow_records,
+        df_top_channels=df_top_channels,
+        df_trending_month=df_trending_month,
     )
 
     render_ai_assistant_ui(con, data_summary)

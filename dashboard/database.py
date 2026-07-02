@@ -81,4 +81,15 @@ def load_data():
         SELECT * FROM youtube_analytics_lakehouse.main_youtube_gold.ml_predictions
     """).df()
 
-    return df_gold, df_category, df_country, df_model_results, df_predictions
+    df_top_channels = con.sql("""
+        SELECT * FROM youtube_analytics_lakehouse.main_youtube_gold.gold_top_channels
+        ORDER BY avg_engagement_rate DESC
+    """).df()
+
+    df_trending_month = con.sql("""
+        SELECT * FROM youtube_analytics_lakehouse.main_youtube_gold.gold_trending_by_month
+        ORDER BY year, month
+    """).df()
+
+    return (df_gold, df_category, df_country, df_model_results, df_predictions,
+            df_top_channels, df_trending_month)
