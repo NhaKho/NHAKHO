@@ -74,7 +74,7 @@ def load_data():
 
     df_model_results = con.sql("""
         SELECT * FROM youtube_analytics_lakehouse.main_youtube_gold.ml_model_results
-        ORDER BY r2 DESC
+        ORDER BY (model LIKE '%Tuned%') DESC, r2 DESC
     """).df()
 
     df_predictions = con.sql("""
